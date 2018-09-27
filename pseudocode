@@ -1,0 +1,149 @@
+Begin the Process;
+Read NFC with Divice;
+//check if the NFC is enabled on divice
+if (NFC == Enabled{
+Coordinator enters;
+before_check:
+if(Coordinator action?) {
+  //input NFC TAG
+  /Read SmartCard Participant/;
+  function leer{
+    
+    BufferedReader;
+    Count lines;
+    if (lines =40){
+      bof;
+      delete 1 line;
+      eof;
+      insert 1 line;
+    }
+    else
+    {
+      eof;
+      append 1 line;
+      
+    }
+    exit leer;
+  }
+  call leer;
+  Select Class;//please select one item on our database:  Salud, Nutrición, Arte, Educación, Autoestima, Empleabilidad, Servicio al Cliente, Mercadeo
+  switch(Menu) //select one option
+        {
+        case Attendance:
+        
+        function agregar_asistencia {
+          
+        eventos = [
+        {'asistencia': 1,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 2,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 3,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 4,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0}
+        ];
+        store database & TAG;
+        }       
+        // eventos = agregar_asistencia(eventos) Attendance = Attendance +1
+        
+        call agregar_asistencia;
+        
+        break;
+        case Input Quiz Grade:
+        
+        function agregar_nota_actividad{
+          eventos = [
+        {'asistencia': 1,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 2,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 3,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 4,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0, 'salud_actividad': 8.0}
+        ];
+          store database & TAG;
+        }
+        //eventos = agregar_nota(eventos, {'salud_actividad': 8.0}) Input Quiz grade (0-10)
+        call agregar_nota_exam;
+        
+        break;
+        case Input Exam Grade:
+        function agregar_nota_exam{
+          eventos = [
+        {'asistencia': 1,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 2,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 3,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 4,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0}
+        ];
+          store database & TAG;
+        }
+        //eventos = agregar_nota_exam(eventos, {'salud_examen': 8.0}) Input Exam grade (0-10)
+        call agregar_nota_actividad;
+        
+        break;
+        case Edit Quiz Grade:
+        function modificar_nota_actividad{
+          eventos = [
+        {'asistencia': 1,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 2,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 3,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 4,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0, 'salud_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0, 'salud_actividad': 7.0}
+        ];
+          store database & TAG;
+        }
+        //eventos = modificar_nota_actividad(eventos, {'salud_actividad': 7.0}) Modify Quiz grade (0-10)
+        call modificar_nota_actividad;
+        
+        break;
+        case Edit Exam Grade:
+        function modificar_nota_examen{
+          eventos = [
+        {'asistencia': 1,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 2,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 3,'mercadeo_examen': 8.0, 'mercadeo_actividad': 8.0},
+        {'asistencia': 4,'autoestima_examen': 8.0, 'autoestima_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0, 'salud_actividad': 8.0},
+        {'asistencia': 4,'salud_examen': 8.0, 'salud_actividad': 7.0}
+        ];
+          store database & TAG;
+        }
+        //eventos = modificar_nota_examen(eventos, {'salud_actividad': 7.0}) Modify Quiz grade (0-10)
+        call modificar_nota_examen;
+        
+        break; 
+        
+        case print list:
+        function procesar_lista{
+          salida=[
+          
+    'asistencia': { 'asistencia': 4, 'total': 40, 'nota_asistencia': 0.1 },
+    'mercadeo': { 'examen': 8.0, 'actividad': 8.0, 'nota': 8.0 },
+    'autoestima': { 'examen': 8.0, 'actividad': 8.0, 'nota': 8.0 },
+    'salud': { 'examen': 8.0, 'actividad': 7.0, 'nota': 7.5 },
+    'nota_final': 2.6
+        }
+        ];
+        convert pdf;
+        }
+        call procesar_lista;
+        break;
+        
+        # end of the menu
+        }  
+  
+  
+  store database; //selection from menu oprion call all the functions
+  loop before_check;
+}
+Coordinator leaves;//exit app
+
+
+}
+else
+{
+  \Alert Message ="Please Enabled NFC on your divice"/;
+}
+
+
+End of Process;
